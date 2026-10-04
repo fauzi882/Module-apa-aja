@@ -1,0 +1,35 @@
+name: Masak Modul Asli
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Tarik Kodingan & Bumbu Offline
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Siapin Mesin Java 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Izin Eksekusi Kompor
+      run: chmod +x ./gradlew
+
+    - name: Masak APK!
+      run: ./gradlew assembleRelease
+
+    - name: Sajikan APK Mateng
+      uses: actions/upload-artifact@v4
+      with:
+        name: Modul-Ojol-Mateng
+        path: app/build/outputs/apk/release/*.apk
+        
